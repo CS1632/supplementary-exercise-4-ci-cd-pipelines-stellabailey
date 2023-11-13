@@ -6,7 +6,6 @@ import java.util.Scanner;
 public class RentACatImpl implements RentACat {
 
 	private ArrayList<Cat> cats = new ArrayList<Cat>();
-
 	/**
 	 * Return a cat. This should call the .returnCat() method on the cat for the
 	 * passed-in cat id. If the cat with the id exists in the list of cats and has
@@ -19,6 +18,24 @@ public class RentACatImpl implements RentACat {
 
 	public boolean returnCat(int id) {
 		// TODO
+		// null / zero-element check
+		if (cats == null || cats.size() == 0) {
+			return false;
+		}
+		
+		//check if the cat id exists in the array list
+		for (int i = 0; i < cats.size(); i++)
+		{
+			Cat currentCat = cats.get(i);
+			if (currentCat.getId() == id){	//cat id exists in list
+				if (currentCat.getRented()){	//cat has been rented out
+						currentCat.returnCat();
+						return true;
+				}
+				else
+					return false;
+			}
+		}
 		return false;
 	}
 
@@ -34,6 +51,29 @@ public class RentACatImpl implements RentACat {
 
 	public boolean rentCat(int id) {
 		// TODO
+
+		// null / zero-element check
+		if (cats == null || cats.size() == 0) {
+			return false;
+		}
+
+		//check if the cat id exists in the array list
+		for (int i = 0; i < cats.size(); i++)
+		{
+			Cat currentCat = cats.get(i);
+			if (currentCat.getId() == id){	//cat id exists in list
+				if (!currentCat.getRented()){	//cat has been rented out
+					currentCat.rentCat();
+					return true;
+				}
+				else
+					return false;
+			}
+		}
+		// if the cat id is not rented out --> use available cats method?
+		// call .rentcat()
+		// return true
+		// else:
 		return false;
 	}
 
@@ -49,7 +89,16 @@ public class RentACatImpl implements RentACat {
 
 	public String listCats() {
 		// TODO
-		return "WRITE CODE FOR THIS";
+		// get the non rented cats 
+		String notRentedCats = "";
+		for (int i = 0; i < cats.size(); i++){
+			Cat currentCat = cats.get(i);
+			if(!currentCat.getRented()){		//cat not rented yet
+				notRentedCats += currentCat.toString()+"\n";
+			}
+		}
+		// concatenate them to a string
+		return notRentedCats;
 	}
 
 	/**
@@ -62,7 +111,16 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public boolean catExists(int id) {
-		// TODO
+		// null / zero-element check
+		if (cats == null || cats.size() == 0) {
+			return false;
+		}
+		for (int i = 0; i < cats.size(); i++)
+		{
+			Cat currentCat = cats.get(i);
+			if (currentCat.getId() == id)
+				return true;
+		}
 		return false;
 	}
 
@@ -81,6 +139,7 @@ public class RentACatImpl implements RentACat {
 		if (cats == null || cats.size() == 0) {
 			return false;
 		}
+
 		Cat c = getCat(id);
 		if (c == null) {
 			// No cat of this ID exists, thus it is not available
@@ -93,7 +152,6 @@ public class RentACatImpl implements RentACat {
 		// If cat exists and is not rented, then the cat
 		// is available to rent
 		return true;
-
 	}
 
 	/**

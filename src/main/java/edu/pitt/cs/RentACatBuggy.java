@@ -24,7 +24,7 @@ public class RentACatBuggy implements RentACat {
 			c.returnCat();
 			return true;
 		}
-		return true;
+		return true;		
 	}
 
 	/**
